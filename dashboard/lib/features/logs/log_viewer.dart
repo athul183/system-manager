@@ -13,7 +13,7 @@ class _LogViewerState extends State<LogViewer> {
   final List<String> _logs = [
     "Initializing stream for \${widget.appId}...",
     "Connection established.",
-  ]; // In a real app, this would be a Riverpod stream from WebSocketService
+  ];
 
   void _addMockLog() {
     setState(() {
