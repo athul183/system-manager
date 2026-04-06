@@ -50,9 +50,9 @@ func main() {
 	controller.StartCommandListener(commandChan)
 
 	go func() {
-		log.Println("WebSocket server listening on localhost:8080")
+		log.Println("WebSocket server listening on 0.0.0.0:8080")
 		http.Handle("/ws", wsServer)
-		if err := http.ListenAndServe("127.0.0.1:8080", nil); err != nil {
+		if err := http.ListenAndServe("0.0.0.0:8080", nil); err != nil {
 			log.Fatalf("WebSocket listener failed: %v", err)
 		}
 	}()

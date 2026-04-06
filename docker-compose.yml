@@ -1,0 +1,32 @@
+version: '3.8'
+
+services:
+  agent:
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
+    # To monitor the host effectively from inside docker, we need these elevated perms
+    pid: "host" 
+    privileged: true
+    volumes:
+      # Expose host process info and docker socket
+      - /proc:/proc:ro
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - /run/systemd/private:/run/systemd/private:ro
+      - agent-data:/app/data
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+
+  dashboard:
+    build:
+      context: ./dashboard
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - agent
+    restart: unless-stopped
+
+volumes:
+  agent-data:
