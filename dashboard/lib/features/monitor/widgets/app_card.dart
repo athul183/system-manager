@@ -6,11 +6,6 @@ import 'package:sys_dashboard/core/services/websocket_service.dart';
 import 'package:sys_dashboard/core/theme.dart';
 import 'package:sys_dashboard/features/logs/log_viewer.dart';
 
-// To keep chart history, we should store recent metric points. 
-// A real app would use a StateNotifierProvider to maintain history per app.
-// For this single-file robust widget, we'll maintain state in a StatefulWidget
-// that accumulates points.
-
 class AppCard extends ConsumerStatefulWidget {
   final AppMetrics metric;
   const AppCard({super.key, required this.metric});
@@ -30,7 +25,7 @@ class _AppCardState extends ConsumerState<AppCard> {
       _timeCount++;
       _cpuData.add(FlSpot(_timeCount, widget.metric.cpu));
       if (_cpuData.length > 30) {
-        _cpuData.removeAt(0); // Keep last 30 data points for active streaming graph
+        _cpuData.removeAt(0); 
       }
     }
   }
@@ -78,7 +73,6 @@ class _AppCardState extends ConsumerState<AppCard> {
             ),
             const SizedBox(height: 16),
             
-            // Metrics numbers
             Row(
               children: [
                 _buildStatColumn('CPU', '\${widget.metric.cpu.toStringAsFixed(1)}%'),
@@ -89,7 +83,6 @@ class _AppCardState extends ConsumerState<AppCard> {
             
             const SizedBox(height: 20),
             
-            // Dynamic Graph
             Expanded(
               child: _cpuData.isEmpty
                   ? const Center(child: Text("Waiting for data..."))
@@ -118,7 +111,6 @@ class _AppCardState extends ConsumerState<AppCard> {
             
             const SizedBox(height: 16),
             
-            // Controls
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
